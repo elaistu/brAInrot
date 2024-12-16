@@ -1,24 +1,10 @@
-# Flask Frontend Application
+# brAInrot Music Suggestion Tool
 
-This is a simple Flask frontend application that demonstrates how to set up a basic web application using Flask. 
+brAInrot is a web-based app for video creators that provides background music suggestions. 
 
-## Project Structure
+## Usage
 
-```
-flask-frontend-app
-├── app
-│   ├── static
-│   │   ├── css
-│   │   │   └── styles.css
-│   │   ├── js
-│   │   │   └── scripts.js
-│   ├── templates
-│   │   └── index.html
-│   └── __init__.py
-├── app.py
-├── requirements.txt
-└── README.md
-```
+Upload a .mp4 video and brAInrot will suggest 10 thematically appropriate and copyright-free tracks in real-time
 
 ## Requirements
 
