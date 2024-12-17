@@ -18,6 +18,29 @@
             <br><br>
             <button type="submit">Upload Video</button>
         </form>
+        {% if video_url %}
+        <h2>Uploaded Video:</h2>
+        <video width="320" height="240" controls>
+            <source src="{{ video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Video Description:</h2>
+        <p>{{ description }}</p>
+        {% endif %}
+        
+        {% if top_5_music_images %}
+        <h2>Top 5 Songs:</h2>
+        <div class="top-songs">
+            {% for index, song in enumerate(top_5_music_images) %}
+            <div class="song-box">
+                <h3>{{ index + 1 }}. {{ song.SongTitle }}</h3>
+                <a href="{{ song.URL }}" target="_blank">
+                    <img src="data:image/png;base64,{{ song.Thumbnail }}" alt="Song Image">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </main>
     <footer>
         <p>&copy; 2024 Chinchilla Productions</p>

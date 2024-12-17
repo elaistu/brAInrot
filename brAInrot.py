@@ -15,6 +15,7 @@ from decord import VideoReader, cpu
 
 import pandas as pd
 import json
+import tempfile
 
 warnings.filterwarnings("ignore")
 # Load the OneVision model
@@ -31,12 +32,17 @@ def excel_to_json(excel_path, json_path):
     df = pd.read_excel(excel_path)
     df.to_json(json_path, orient='records', lines=True)
 
-# Function to extract frames from video
+
+
 def load_video(video_path, max_frames_num):
-    if type(video_path) == str:
+    if isinstance(video_path, str):
         vr = VideoReader(video_path, ctx=cpu(0))
     else:
-        vr = VideoReader(video_path[0], ctx=cpu(0))
+        # Write the file-like object to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(video_path.read())
+            temp_file_path = temp_file.name
+        vr = VideoReader(temp_file_path, ctx=cpu(0))
     total_frame_num = len(vr)
     uniform_sampled_frames = np.linspace(0, total_frame_num - 1, max_frames_num, dtype=int)
     frame_idx = uniform_sampled_frames.tolist()

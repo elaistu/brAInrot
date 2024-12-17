@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, url_for
 import os
 import brAInrot
+import sqlite3
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'uploads/'
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -12,6 +13,29 @@ ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+class Database:
+    def __init__(self, db_path):
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
+        self.cursor = self.conn.cursor()
+
+    def get_top_5_music_images_url(self, top_5_music):
+        result = []
+        for song_title in top_5_music:
+            self.cursor.execute("""
+                SELECT "Song Title", Thumbnail, URL FROM songs WHERE "Song Title" = ?
+            """, (song_title,))
+            row = self.cursor.fetchone()
+            if row:
+                result.append({
+                    "SongTitle": row[0],
+                    "Thumbnail": row[1],  # Assuming you want only the first 20 characters of the Thumbnail
+                    "URL": row[2]
+                })
+        return result
+
+    def close(self):
+        self.conn.close()
 
 @app.route('/')
 def home():
@@ -28,12 +52,28 @@ def upload_video():
         return jsonify({"message": "No selected video file"}), 400
     
     if video_file and allowed_file(video_file.filename):
-        # Save the video to the server
+        # Save the file to the static/uploads folder
         filename = os.path.join(app.config['UPLOAD_FOLDER'], video_file.filename)
         video_file.save(filename)
+        
+        # Process the video using the saved file path
         descriptor = brAInrot.describeVideo(filename)
-        # this message needs to be pumped into a gpt thingy
-        return jsonify({"message": descriptor}), 200 
+        video_url = url_for('static', filename='uploads/' + video_file.filename)
+
+        top_5_music = [
+            "OCEAN WAVES",
+            "RIVER SONG",
+            "TROPICAL VIBES",
+            "FOREST HARMONY",
+            "MEADOW SERENADE"
+        ]
+
+        db = Database('Music.db')
+        top_5_music_images = db.get_top_5_music_images_url(top_5_music)
+        db.close()
+        print(top_5_music_images)
+        
+        return render_template('index.html', video_url=video_url, description=descriptor, top_5_music_images=top_5_music_images, enumerate=enumerate)
     else:
         return jsonify({"message": "Invalid file type"}), 400
 
