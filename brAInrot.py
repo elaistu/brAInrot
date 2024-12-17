@@ -18,15 +18,16 @@ import json
 import tempfile
 
 warnings.filterwarnings("ignore")
-# Load the OneVision model
-pretrained = "lmms-lab/llava-onevision-qwen2-0.5b-ov"
-model_name = "llava_qwen"
-device = "cuda"
-device_map = "auto"
-llava_model_args = {
-    "multimodal": True,
-}
-tokenizer, model, image_processor, max_length = load_pretrained_model(pretrained, None, model_name, device_map=device_map, attn_implementation="sdpa", **llava_model_args)
+def load_model():
+    pretrained = "lmms-lab/llava-onevision-qwen2-7b-ov"
+    model_name = "llava_qwen"
+    device = "cuda"
+    device_map = "auto"
+    llava_model_args = {
+        "multimodal": True,
+    }
+    tokenizer, model, image_processor, max_length = load_pretrained_model(pretrained, None, model_name, device_map=device_map, attn_implementation="sdpa", **llava_model_args)
+    return tokenizer, model, image_processor
 
 def excel_to_json(excel_path, json_path):
     df = pd.read_excel(excel_path)
@@ -49,13 +50,13 @@ def load_video(video_path, max_frames_num):
     spare_frames = vr.get_batch(frame_idx).asnumpy()
     return spare_frames  # (frames, height, width, channels)
 
-def describeVideo(video_path):
+def describeVideo(video_path, tokenizer, model, image_processor, device):
     model.eval()
     # Load and process video
     video_frames = load_video(video_path, 16)
     print(video_frames.shape) # (16, 1024, 576, 3)
     image_tensors = []
-    frames = image_processor.preprocess(video_frames, return_tensors="pt")["pixel_values"].half().cuda()
+    frames = image_processor.preprocess(video_frames, return_tensors="pt")["pixel_values"].half().to(device)
     image_tensors.append(frames)
 
     # Prepare conversation input

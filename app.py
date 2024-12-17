@@ -29,13 +29,17 @@ class Database:
             if row:
                 result.append({
                     "SongTitle": row[0],
-                    "Thumbnail": row[1],  # Assuming you want only the first 20 characters of the Thumbnail
+                    "Thumbnail": row[1],
                     "URL": row[2]
                 })
         return result
 
     def close(self):
         self.conn.close()
+
+# Load the model once when the application starts
+tokenizer, model, image_processor = brAInrot.load_model()
+device = "cuda"  # or "cpu" depending on your setup
 
 @app.route('/')
 def home():
@@ -57,7 +61,7 @@ def upload_video():
         video_file.save(filename)
         
         # Process the video using the saved file path
-        descriptor = brAInrot.describeVideo(filename)
+        descriptor = brAInrot.describeVideo(filename, tokenizer, model, image_processor, device)
         video_url = url_for('static', filename='uploads/' + video_file.filename)
 
         top_5_music = [
@@ -78,4 +82,4 @@ def upload_video():
         return jsonify({"message": "Invalid file type"}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
