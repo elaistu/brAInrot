@@ -13,6 +13,9 @@ import copy
 import warnings
 from decord import VideoReader, cpu
 
+import pandas as pd
+import json
+
 warnings.filterwarnings("ignore")
 # Load the OneVision model
 pretrained = "lmms-lab/llava-onevision-qwen2-0.5b-ov"
@@ -23,6 +26,10 @@ llava_model_args = {
     "multimodal": True,
 }
 tokenizer, model, image_processor, max_length = load_pretrained_model(pretrained, None, model_name, device_map=device_map, attn_implementation="sdpa", **llava_model_args)
+
+def excel_to_json(excel_path, json_path):
+    df = pd.read_excel(excel_path)
+    df.to_json(json_path, orient='records', lines=True)
 
 # Function to extract frames from video
 def load_video(video_path, max_frames_num):
