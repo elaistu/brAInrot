@@ -11,6 +11,74 @@
         <h1>brAInrot Music Finder</h1>
     </header>
     <main>
+
+
+        <button class="open-login-btn" onclick="openLoginPopup()">Login</button>
+
+
+        <div id="loginPopup" class="login-popup">
+            <div class="popup-content">
+                <h3>Login</h3>
+                <form id="loginForm" onsubmit="submitLoginForm(event)">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <button onclick="closeLoginPopup()">Close</button>
+            </div>
+        </div>
+        
+        <div id="messagePopup" class="message-popup"></div>
+
+        <script>
+            function openLoginPopup() {
+                document.getElementById('loginPopup').style.display = 'flex';
+            }
+    
+            function closeLoginPopup() {
+                document.getElementById('loginPopup').style.display = 'none';
+            }
+            function submitLoginForm(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = new FormData(document.getElementById('loginForm'));
+
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessagePopup(data.message, 'green', 'messagePopup'); // Show success message
+                    closeLoginPopup()
+                } else {
+                    showMessagePopup(data.message, 'red', 'messagePopup'); // Show error message
+                    closeLoginPopup()
+                }
+            })
+            .catch(error => {
+                showMessagePopup("An error occurred. Please try again later.", 'red', 'messagePopup');
+            });
+        }
+
+        // Show the message popup
+        function showMessagePopup(message, color, divid) {
+            var messagePopup = document.getElementById(divid);
+            messagePopup.style.backgroundColor = color;
+            messagePopup.textContent = message;
+            messagePopup.style.display = 'block';
+            
+            // Hide the message after 3 seconds
+            setTimeout(() => {
+                messagePopup.style.display = 'none';
+            }, 3000);
+        }
+        </script>
+
+
+
+
         <p>Please upload a video.</p>
         <form action="/upload" method="POST" enctype="multipart/form-data">
             <label for="video-file">Select Video:</label>
@@ -38,6 +106,45 @@
                     <img src="data:image/png;base64,{{ song.Thumbnail }}" alt="Song Image">
                 </a>
             </div>
+
+            <h3>Good recommendation?</h3>
+            <button class="btn" id="yesBtn{{ index }}" onclick="submitFeedback('{{ index }}', 'Yes')">Yes</button>
+            <button class="btn" id="noBtn{{ index }}" onclick="submitFeedback('{{ index }}', 'No')">No</button>
+
+            <div id="messagePopup{{ index }}" class="message-popup" style="display:none;">
+                <!-- Popup content goes here -->
+            </div>
+
+            <script>
+                // JavaScript function to handle feedback submission and show a message
+                function submitFeedback(index, feedback) {
+                    fetch('/upload/feedback', {
+                        method: 'POST',
+                        body: JSON.stringify({ feedback: feedback, index: index }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Show the popup after feedback submission
+                        showMessagePopup("Feedback received.", 'green', 'messagePopup' + index);
+                    });
+                }
+
+                // Function to display the popup message
+                function showMessagePopup(message, color, popupId) {
+                    const popup = document.getElementById(popupId);
+                    popup.style.display = 'block';
+                    popup.innerHTML = `<p style="color:${color}">${message}</p>`;
+                }
+
+                // Function to close the popup (if needed)
+                function closePopup(popupId) {
+                    const popup = document.getElementById(popupId);
+                    popup.style.display = 'none';
+                }
+            </script>
             {% endfor %}
         </div>
         {% endif %}

@@ -81,5 +81,23 @@ def upload_video():
     else:
         return jsonify({"message": "Invalid file type"}), 400
 
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    
+    # Simulating a login check (in real applications, you would check credentials)
+    if username and password:
+        return jsonify(success=True, message="Login successful!")
+    else:
+        # Failed login response
+        return jsonify(success=False, message="Invalid credentials, please try again.")
+
+@app.route('/upload/feedback', methods=['POST'])
+def feedback():
+    return jsonify(success=True)
+
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
