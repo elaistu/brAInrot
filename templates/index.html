@@ -11,13 +11,13 @@
         <h1>brAInrot Music Finder</h1>
     </header>
     <main>
-        <p>Please upload a video.</p>
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <label for="video-file">Select Video:</label>
-            <input type="file" id="video-file" name="video" accept="video/*" required>
-            <br><br>
-            <button type="submit">Upload Video</button>
-            <br><br>
+        <form action="/upload" method="POST" enctype="multipart/form-data" id="upload-form">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-lg" onclick="document.getElementById('video-file').click();">
+                    <i class="fa fa-file-plus mr-1"></i> Upload Video
+                </button>
+                <input type="file" id="video-file" name="video" accept="video/*" required style="display: none;" onchange="document.getElementById('upload-form').submit();">
+            </div>
         </form>
         {% if video_url %}
         <h2>Uploaded Video:</h2>
@@ -34,10 +34,14 @@
         <div class="top-songs">
             {% for index, song in enumerate(top_5_music_images) %}
             <div class="song-box">
-                <h3>{{ index + 1 }}. {{ song.SongTitle }}</h3>
-                <a href="{{ song.URL }}" target="_blank">
-                    <img src="data:image/png;base64,{{ song.Thumbnail }}" alt="Song Image">
-                </a>
+                <div class="song-title">
+                    <h3>{{ index + 1 }}. {{ song.SongTitle }}</h3>
+                </div>
+                <div class="song-thumbnail">
+                    <a href="{{ song.URL }}" target="_blank">
+                        <img src="data:image/png;base64,{{ song.Thumbnail }}" alt="Song Image">
+                    </a>
+                </div>
             </div>
             {% endfor %}
         </div>
