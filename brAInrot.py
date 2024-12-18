@@ -19,7 +19,7 @@ import tempfile
 
 warnings.filterwarnings("ignore")
 def load_model():
-    pretrained = "lmms-lab/llava-onevision-qwen2-7b-ov"
+    pretrained = "lmms-lab/llava-onevision-qwen2-0.5b-ov"
     model_name = "llava_qwen"
     device = "cuda"
     device_map = "auto"

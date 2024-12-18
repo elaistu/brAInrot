@@ -1,22 +1,24 @@
-/* Header Colour & Font */
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light grey text */
 }
 
 header {
-    background-color: #343a40;
-    color: white;
-    padding: 10px 0;
+    background-color: #1f1f1f; /* Darker header */
+    color: #e0e0e0; /* Light grey text */
+    padding: 20px 0;
     text-align: center;
     width: 100%;
     margin: 0;
 }
 
 h1 {
-    margin: 20px 0;
+    margin: 0;
+    font-size: 2.5em;
 }
 
 .container {
@@ -26,8 +28,8 @@ h1 {
 }
 
 footer {
-    background-color: #343a40;
-    color: white;
+    background-color: #1f1f1f; /* Darker footer */
+    color: #e0e0e0; /* Light grey text */
     text-align: center;
     padding: 10px 0;
     position: relative;
@@ -35,75 +37,87 @@ footer {
     width: 100%;
 }
 
-
-/* Background Colour */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #ADD8E6; /* Change this to your desired background color */
-}
-
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    width: 100%;
-    margin: 0;
-}
-
-h1 {
-    margin: 20px 0;
-}
-
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
-
+/* Main Content */
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 20px;
 }
 
-video {
-    margin-top: 20px;
+form {
+    background-color: #1f1f1f; /* Dark form background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    margin-bottom: 20px;
 }
 
-footer {
-    background-color: #343a40;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
+label {
+    font-weight: bold;
+    color: #e0e0e0; /* Light grey text */
 }
 
+button {
+    background-color: #15e65e; /* Neon green button */
+    color: #121212; /* Dark text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
 
-/* Video Alignment */
-body {
+button:hover {
+    background-color: #15e65e; /* Slightly darker neon green on hover */
+}
+
+.responsive-video {
+    width: 33.33%; /* One-third of the page horizontally */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 20px auto; /* Center the video horizontally with margin */
+}
+
+.description-box {
+    width: 45%; /* 45% of the page horizontally */
+    height: auto; /* Fit vertically */
+    border: 1px solid #333; /* Dark border */
+    background-color: #1f1f1f; /* Dark background */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    margin: 20px auto; /* Center the box horizontally */
+}
+
+/* Top Songs Section */
+.top-songs {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
+    gap: 20px;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.song-box {
+    background-color: #1f1f1f; /* Dark background */
+    border: 1px solid #333; /* Dark border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px;
+    width: 200px;
     text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
 }
 
-video {
-    margin-top: 20px;
+.song-box h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #e0e0e0; /* Light grey text */
+}
+
+.song-box img {
+    max-width: 100%;
+    border-radius: 5px;
 }
