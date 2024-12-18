@@ -81,5 +81,5 @@ def describeVideo(video_path, tokenizer, model, image_processor, device):
         max_new_tokens=4096,
         modalities=["video"],
     )
-    description = tokenizer.batch_decode(cont, skip_special_tokens=True)
+    description = tokenizer.batch_decode(cont, skip_special_tokens=True)[0]
     return description
