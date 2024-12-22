@@ -4,19 +4,20 @@ class Database:
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
 
-    def get_top_5_music_images_url(self, top_5_music):
+    def get_top_5_music_images_url(self, video_ids):
         result = []
-        for song_title in top_5_music:
+        for video_id in video_ids:
             self.cursor.execute("""
-                SELECT "Song Title", Thumbnail, URL FROM songs WHERE "Song Title" = ?
-            """, (song_title,))
+                SELECT video_id, thumbnail_base64, title FROM songs WHERE id = ?
+            """, (video_id,))
             row = self.cursor.fetchone()
             if row:
                 result.append({
                     "SongTitle": row[0],
                     "Thumbnail": row[1],
-                    "URL": row[2]
+                    "URL": "https://www.youtube.com/watch?v=" + row[2]
                 })
+
         return result
     
     def get_all_songs_info(self):
