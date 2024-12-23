@@ -25,7 +25,7 @@ python app.py
 The application will be available at `http://127.0.0.1:5000/`.
 
 ## Features
-![Music Analyser Architecture](C:/Users/tueli/Desktop/NTU Admin/Synapse2024/Music Analyser Architecture.png)
+![Music Analyser Architecture](Music_Analyser_Architecture.png)
 - Static files (CSS and JavaScript) for styling and interactivity.
 - A main HTML template for rendering the web page.
 - Basic Flask application structure with routes and configurations.
