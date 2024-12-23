@@ -4,7 +4,7 @@ brAInrot is a web-based app for video creators that provides background music su
 
 ## Usage
 
-Upload a .mp4 video and brAInrot will suggest 10 thematically appropriate and copyright-free tracks in real-time
+Upload a .mp4 video and brAInrot will suggest 5 thematically appropriate and copyright-free tracks in real-time
 
 ## Requirements
 
@@ -25,10 +25,11 @@ python app.py
 The application will be available at `http://127.0.0.1:5000/`.
 
 ## Features
-
+![Music Analyser Architecture](C:/Users/tueli/Desktop/NTU Admin/Synapse2024/Music Analyser Architecture.png)
 - Static files (CSS and JavaScript) for styling and interactivity.
 - A main HTML template for rendering the web page.
 - Basic Flask application structure with routes and configurations.
+- Either uses the local run Phi-4 LLM by microsoft or OpenAI API
 
 ## License
 
