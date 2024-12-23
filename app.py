@@ -3,7 +3,7 @@ import os
 import brAInrot
 import sqlite3
 from database import Database
-from LLM import LLM
+from LLM1 import LLM
 import ast
 
 class FlaskApp:
@@ -59,12 +59,10 @@ class FlaskApp:
             print("response", response)
             top_5_music = self.llm.clean_string(response)
 
-            string = """[86, 90, 91, 88, 86]"""
-
             # Convert string to list
-            list_from_string = ast.literal_eval(string)
+            list_from_string = ast.literal_eval(top_5_music)
 
-            print("####list_from string\n:",list_from_string, "\n####")  # Output: [86, 90, 91, 88, 86]
+            print("####list_from string\n:",list_from_string, "\n####")
             print(type(list_from_string))  # Output: <class 'list'>
 
             print("######\ntop_5_music\n", top_5_music, "\n######")
